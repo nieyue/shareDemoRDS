@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="display:none;">
 <head>
   <meta charset="utf-8">
 
@@ -54,7 +54,8 @@ function getQueryString (name)
      var desc=getQueryString("desc");
     var wxData = {
         "imgUrl" : imgUrl,
-        "link"   : location.href+"?redirect="+link,
+        //"link"   : location.href+"?redirect="+link,
+        "link"   : location.protocol+"//"+location.hostname+"?redirect="+link,
         "title"  : title,
         "desc"   : desc
     };
@@ -70,6 +71,7 @@ function getQueryString (name)
             'onMenuShareAppMessage'
         ]
     });
+
     wx.ready(function () {
         wx.onMenuShareTimeline({
             title: wxData.title,
@@ -102,6 +104,10 @@ function getQueryString (name)
             }
         });
     });
+setTimeout(function(){
+     $("html").show();
+},200)
+
 </script>
 </body>
 </html>
