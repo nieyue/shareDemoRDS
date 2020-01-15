@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1,  minimum-scale=1, maximum-scale=1"/>
+
+  <style type="text/css">
+  html,body{
+    background-color: #ea8787;
+    height:100%;
+    margin:0;
+    padding: 0;
+    list-style: none;
+  }
+      p {
+        text-align: center;
+        font-size: xx-large;
+      }
+  </style>
+</head>
+<body >
+    <div style="height:30%"></div>
+     <div id="content" style="color:#ff6060;font-weight:bold;font-size:18px;text-align:center;background-color:#fff;width:80%;border-radius:5px;margin:auto;vertical-align:middle;padding:10px 0;text-align:center;">
+        <div style="color:#bb9f13">分享群</div>
+        <div>即可查看</div>
+    </div>
+  <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    document.write("<script src='accessToken/signPackage.php?originUrl=" + window.location.href + "' type='text/javascript'><\/script>");
+</script>
+<script>
+var status=0;
+
+function getQueryString (name)
+    {
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  decodeURIComponent(r[2]); return null;
+    }
+    var redirect=getQueryString("redirect");
+    if(redirect){
+        location.href=redirect;
+    
+    }
+
+    var link=getQueryString("link");
+     var imgUrl=getQueryString("imgUrl");
+     var title=getQueryString("title");
+     var desc=getQueryString("desc");
+    var wxData = {
+        "imgUrl" : imgUrl,
+        "link"   : location.href+"?redirect="+link,
+        "title"  : title,
+        "desc"   : desc
+    };
+
+    wx.config({
+        debug: false,
+        appId: signPackage.appId,
+        timestamp: parseInt(signPackage.timestamp),
+        nonceStr: signPackage.nonceStr,
+        signature: signPackage.signature,
+        jsApiList: [
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage'
+        ]
+    });
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: wxData.title,
+            link: wxData.link,
+            imgUrl: wxData.imgUrl,
+            success: function () {
+                
+                status++;
+                if(status==1){
+                    $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈</div><div>即可查看！</div>');
+                }else{
+                    location.href=link+"/result.php"
+                }
+            }
+        });
+        wx.onMenuShareAppMessage({
+            title: wxData.title,
+            desc: wxData.desc,
+            link: wxData.link,
+            imgUrl: wxData.imgUrl,
+            type: 'link',
+            dataUrl: '',
+            success: function () {
+                status++;
+                if(status==1){
+                    $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈</div><div>即可查看！</div>');
+                }else{
+                    location.href=link+"/result.php"
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
