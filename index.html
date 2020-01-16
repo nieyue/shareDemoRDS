@@ -34,7 +34,6 @@
     document.write("<script src='accessToken/signPackage.php?originUrl=" + window.location.href + "' type='text/javascript'><\/script>");
 </script>
 <script>
-var status=0;
 
 function getQueryString (name)
     {
@@ -47,16 +46,22 @@ function getQueryString (name)
         location.href=redirect;
     
     }
-
+    var status=getQueryString("status");
+    if(!status||status=="null"){
+      status=0;
+    }else if(status==1){
+      $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈</div><div>即可查看！</div>');
+    }
     var link=getQueryString("link");
      var imgUrl=getQueryString("imgUrl");
-     var title=getQueryString("title");
+     var title=JSON.parse(getQueryString("title"));
      var desc=getQueryString("desc");
+     var tempstatus=parseInt(status)+1;
     var wxData = {
         "imgUrl" : imgUrl,
         //"link"   : location.href+"?redirect="+link,
         "link"   : location.protocol+"//"+location.hostname+"?redirect="+link,
-        "title"  : title,
+        "title"  : title['title'+tempstatus],
         "desc"   : desc
     };
 
@@ -81,7 +86,8 @@ function getQueryString (name)
                 
                 status++;
                 if(status==1){
-                    $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈</div><div>即可查看！</div>');
+                  location.href=location.href+"&status="+status;
+                    
                 }else{
                     location.href=link+"/result.php"
                 }
@@ -97,7 +103,7 @@ function getQueryString (name)
             success: function () {
                 status++;
                 if(status==1){
-                    $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈</div><div>即可查看！</div>');
+                  location.href=location.href+"&status="+status;
                 }else{
                     location.href=link+"/result.php"
                 }
