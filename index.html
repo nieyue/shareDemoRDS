@@ -34,6 +34,34 @@
     document.write("<script src='accessToken/signPackage.php?originUrl=" + window.location.href + "' type='text/javascript'><\/script>");
 </script>
 <script>
+//解析url
+function parseURL(url) {  
+ var a =  document.createElement('a');  
+ a.href = url;  
+ return {  
+ source: url,  
+ protocol: a.protocol.replace(':',''),  
+ host: a.hostname,  
+ port: a.port,  
+ query: a.search,  
+ params: (function(){  
+     var ret = {},  
+         seg = a.search.replace(/^\?/,'').split('&'),  
+         len = seg.length, i = 0, s;  
+     for (;i<len;i++) {  
+         if (!seg[i]) { continue; }  
+         s = seg[i].split('=');  
+         ret[s[0]] = s[1];  
+     }  
+     return ret;  
+ })(),  
+ file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],  
+ hash: a.hash.replace('#',''),  
+ path: a.pathname.replace(/^([^\/])/,'/$1'),  
+ relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],  
+ segments: a.pathname.replace(/^\//,'').split('/')  
+ };  
+}  
 
 function getQueryString (name)
     {
@@ -43,7 +71,9 @@ function getQueryString (name)
     }
     var redirect=getQueryString("redirect");
     if(redirect){
-        location.href=redirect;
+      //var redirectUrl=parseURL(redirect);
+       // location.href=redirectUrl.protocol+"://"+redirectUrl.host+redirectUrl.port;
+       location.href=redirect;
     
     }
     var status=getQueryString("status");
@@ -53,6 +83,7 @@ function getQueryString (name)
       $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈</div><div>即可查看！</div>');
     }
     var link=getQueryString("link");
+    var resulturl=getQueryString("resulturl");
      var imgUrl=getQueryString("imgUrl");
      var title=JSON.parse(getQueryString("title"));
      var desc=getQueryString("desc");
@@ -89,7 +120,7 @@ function getQueryString (name)
                   location.href=location.href+"&status="+status;
                     
                 }else{
-                    location.href=link+"/result.php"
+                    location.href=resulturl
                 }
             }
         });
@@ -105,7 +136,7 @@ function getQueryString (name)
                 if(status==1){
                   location.href=location.href+"&status="+status;
                 }else{
-                    location.href=link+"/result.php"
+                    location.href=resulturl
                 }
             }
         });
