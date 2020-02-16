@@ -81,7 +81,9 @@ function getQueryString (name)
     }
     var status=getQueryString("status");
     if(!status||status=="null"){
-      status=0;
+      //status=0;
+       $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈后继续</div><div>点点手指把正能量的传播出去</div>');
+       status=1;
     }else if(status==1){
       $("#content").html('<div style="color:#11b511;">只差一步</div><div style="color:#bb9f13">分享朋友圈后继续</div><div>点点手指把正能量的传播出去</div>');
     }
