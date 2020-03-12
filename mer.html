@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<base href="http://m.kmk88k.store/">
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no">
+	<title></title>
+	<style type="text/css">
+	 html,body,div{
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8;
+    }
+    button{
+      border:0 solid #fff;
+      padding:5px;
+
+    }
+.wrapper {
+	width:100%;
+	margin: 0px auto;
+}
+@media screen and (min-width: 640px){
+.wrapper {
+	width:640px;
+	margin: 0px auto;
+}
+}
+input,button{
+	outline: none;
+}
+input{
+	height:30px;
+	border:1px solid #ccc;
+	background-color: #fff;
+	text-indent:10px;
+
+}
+.input-wrap{
+	margin:2%;
+}
+.input-wrap span{
+	display: inline-block;
+	width:20%;
+}
+.input-wrap input{
+	display: inline-block;
+	width:70%;
+}
+
+#skulist button{
+	background-color: #fff;
+	color:#000;
+	margin:2%;
+	height:30px;
+	border:1px solid #ececec;
+
+}
+.active{
+	background-color: #e31436 !important;
+	color:#fff !important;
+	border:1px solid #e31436  !important;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<div>
+			<img src="" id="img_address" style="width:100%;height:auto;" alt="">
+		</div>
+		<div style="padding:2%;">
+			<span id="name" style="font-size:18px;font-weight:bold;"></span>
+			<span>(货到付款并包邮)</span>
+		</div>
+		<div style="padding:2%;">
+			<div>套餐：</div>
+			<div id="skulist">
+				
+			</div>
+		</div>
+		<div style="padding:2%;">
+			<span>优惠价：</span>
+			<span style="color:#be0c0c;">￥</span>
+			<span id="unit_price" style="color:#be0c0c;"></span>
+			<span>(已有<span id="sale_number" style="color:#FF5400;"></span>人成功订购)</span>
+		</div>
+		<div style="padding:2%;">
+			<img src="resources/img/hdfk3.png"style="width:20px;" alt="">
+			<span>货到付款</span>
+			<span>（支持开箱验货）</span>
+		</div>
+		<div style="padding:2%;">
+			<div class="input-wrap">
+				<span>收货人&#12288;</span>
+				<input type="text" id="r_name">
+			</div>
+			<div  class="input-wrap">
+				<span>联系手机</span>
+				<input type="text" id="phone">
+			</div>
+
+			<div class="input-wrap">
+				<span>选择地区:</span>
+				<select name="" id="province" style="width:80px;background-color:#fff;height:38px;">
+					<option value="0">请选择省</option>
+				</select>
+				<select name="" id="city" style="width:80px;background-color:#fff;height:38px;">
+					<option value="0">请选择市</option>
+				</select>
+				<select name="" id="area" style="width:80px;background-color:#fff;height:38px;">
+					<option value="0">请选择区</option>
+				</select>
+			</div>
+			<div  class="input-wrap">
+				<span>详细地址</span>
+				<input type="text" id="address">
+			</div>
+			<div  class="input-wrap">
+				<span>您的留言</span>
+				<input type="text" id="user_mark">
+			</div>
+		</div>
+		<div>
+			<img src="resources/img/tokenpng.png"style="width:100%;height:auto;" alt="">
+		</div>
+		<div>
+			<button id="submit" style="background-color:#e31436;color:#fff;width:90%;border-radius:5px;margin-left:5%;height:38px;">提交订单</button>
+		</div>
+		<div style="padding:2%;">
+			<span>注：订单提交后我们会有专门的客服与您联系，请您保持手机畅通。</span>
+		</div>
+		<div >
+			<div style="text-align:center;">详情</div>
+			<div id="details"></div>
+		</div>
+	</div>
+	<div id="return_top" style="display:inline-block;width:50px;height:50px;border-radius:100%;background-color:#ececec;position:fixed;right:15px;bottom:15px;text-align:center;">
+		<div style="display:inline-block;font-size:13px;background-color:#ececec;">↑</div>
+		<div style="display:inline-block;font-size:10px;background-color:#ececec;">回到顶部</div>
+	
+	</div>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script>
+    document.write("<script src='http://"+location.host+"/accessToken/signPackage.php?originUrl=" + window.location.href + "' type='text/javascript'><\/script>");
+</script>
+	<script src="resources/js/jquery-2.1.1.js"></script>
+	<script src="resources/js/address.js"></script>
+	<script src="resources/js/base.js"></script>
+	<script>
+	//  回到顶部效果
+        window.onload = function(){
+            var obtn = document.getElementById('return_top');  //获取回到顶部按钮的ID
+            var clientHeight = document.documentElement.clientHeight;   //获取可视区域的高度
+            var timer = null; //定义一个定时器
+            var isTop = true; //定义一个布尔值，用于判断是否到达顶部
+        
+            window.onscroll = function(){         //滚动条滚动事件
+        
+                //获取滚动条的滚动高度
+                var osTop = document.documentElement.scrollTop || document.body.scrollTop; 
+        
+                if(osTop >= clientHeight){  //如果滚动高度大于可视区域高度，则显示回到顶部按钮
+                        obtn.style.display = 'block';
+                }else{         //否则隐藏
+                    obtn.style.display = 'none';
+                }
+        
+                //主要用于判断当 点击回到顶部按钮后 滚动条在回滚过程中，若手动滚动滚动条，则清除定时器
+                if(!isTop){     
+                    clearInterval(timer);
+                }
+                isTop = false;
+            }
+
+            obtn.onclick = function(){    //回到顶部按钮点击事件
+                //设置一个定时器
+                timer = setInterval(function(){
+                    //获取滚动条的滚动高度
+                    var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    //用于设置速度差，产生缓动的效果
+                    var speed = Math.floor(-osTop / 6);
+                    document.documentElement.scrollTop = document.body.scrollTop = osTop + speed;
+                    isTop =true;  //用于阻止滚动事件清除定时器
+                    if(osTop == 0){
+                        clearInterval(timer);
+                    }
+                },30);
+            }
+        }
+	//初始化地址
+     initProvinceCityArea("#province","#city","#area");
+	$.ajaxSetup({
+	  async: false
+	  });
+	var mer;
+	var channel;
+	var currentSkuIndex=0;
+	var mer_id=getQueryString("mer_id");
+	var channel_id=getQueryString("channel_id");
+	if(!mer_id){
+		$("html").html("非法访问")
+	}
+	//var url="http://m.kmk88k.store"
+	var url=""
+		$.get(url+"/getMer.php?mer_id="+mer_id,function(data){
+			if(!data){
+				$("html").html("非法访问")
+				return;
+			}
+			mer=JSON.parse(data);
+			console.log(mer)
+			$("#img_address").attr("src",mer.img_address)
+			$("#name").html(mer.name)
+			getSku(mer.sku_list,currentSkuIndex);
+			$("#sale_number").html(mer.sku_list[currentSkuIndex].sale_number)
+			$("#unit_price").html(mer.sku_list[currentSkuIndex].unit_price)
+			$("#details").html(mer.details)
+
+				share(mer.name,"",mer.img_address,location.href)
+			
+		})
+
+		$.get(url+"/getChannel.php?channel_id="+channel_id,function(data){
+			if(data){
+			
+			channel=JSON.parse(data);
+			if(channel.domain && channel.domain!=location.host){
+				//不是指定域名的不统计
+			}else{
+				document.write("<div style='display:none;'>"+channel.statistics+"</div>")
+			}
+			console.log(channel)
+	
+			}
+			
+		})
+		function getSku(sku_list,currentSkuIndex){
+			var html=""
+			var active="";
+			for (var i = 0; i < sku_list.length; i++) {
+				if(i==currentSkuIndex){
+					active="active";
+				}else{
+					active="";
+				}
+			  html+= '<button class="'+active+'" data-number="'+i+'">'+sku_list[i].name+'</button>'
+			};
+			$("#skulist").html(html);
+		}
+
+		$("#skulist button").on("click",function(){
+			currentSkuIndex=$(this).attr("data-number");
+			 changeSku(currentSkuIndex);
+
+			})
+
+		function changeSku(currentSkuIndex){
+				//console.log(currentSkuIndex)
+
+			  $("#skulist button").removeClass();
+			  $("#skulist button").each(function(index){
+			      if($(this).attr("data-number")==currentSkuIndex){
+			 // console.log($(this).attr("data-number"))
+			         $(this).addClass("active");
+			         $("#sale_number").html(mer.sku_list[currentSkuIndex].sale_number)
+					 $("#unit_price").html(mer.sku_list[currentSkuIndex].unit_price)
+			       return;
+			      }
+			  })
+			}
+			var submitstatus=0;
+			$("#submit").on("click",function(){
+				
+				
+				var r_name=$("#r_name").val();
+				var phone=$("#phone").val();
+				var province=$("#province").val();
+				var city=$("#city").val();
+				var area=$("#area").val();
+				var address=$("#address").val();
+				var user_mark=$("#user_mark").val();
+				if(!r_name){
+					alert("请填写收货人");
+					return;
+				}
+				if(!phone){
+					alert("请填写手机");
+					return;
+				}
+				if(province=='0'){
+					alert("请选择省");
+					return;
+				}
+				if(city=='0'){
+					alert("请选择市");
+					return;
+				}
+				if(area=='0'){
+					alert("请选择地区");
+					return;
+				}
+		
+				if(!address){
+					alert("请填写详细地址");
+					return;
+				}
+				
+				var order={
+					name:mer.name,
+					summary:mer.summary,
+					img_address:mer.img_address,
+					sku_name:mer.sku_list[currentSkuIndex].name,
+					unit_price:mer.sku_list[currentSkuIndex].unit_price,
+					r_name:r_name,
+					phone:phone,
+					province:province,
+					city:city,
+					area:area,
+					address:address,
+					user_mark:user_mark,
+					mer_id:mer.mer_id,
+					channel_id:channel_id,
+				}
+				if(submitstatus==1){
+					alert("请别频繁提交")
+					return;
+				}
+				submitstatus=1;
+				//console.log(order)
+				$.ajax({
+					url:url+'/submitOrder.php',
+					method:"post",
+					data:order,
+					success:function(data){
+						console.log(data)
+						alert("提交成功")
+						location.reload();
+					},
+					complete:function(){
+						submitstatus==0;
+					}
+				});
+			})
+
+	function share(title,desc,imgUrl,link){
+	    var wxData = {
+	        "imgUrl" : imgUrl,
+	        "link"   : link,
+	        "title"  : title,
+	        "desc"   : desc
+	    };
+
+	    wx.config({
+	        debug: false,
+	        appId: signPackage.appId,
+	        timestamp: parseInt(signPackage.timestamp),
+	        nonceStr: signPackage.nonceStr,
+	        signature: signPackage.signature,
+	        jsApiList: [
+	            'onMenuShareTimeline',
+	            'onMenuShareAppMessage'
+	        ]
+	    });
+
+	    wx.ready(function () {
+	        wx.onMenuShareTimeline({
+	            title: wxData.title,
+	            link: wxData.link,
+	            imgUrl: wxData.imgUrl,
+	            success: function () {
+	                
+	           
+	            }
+	        });
+	        wx.onMenuShareAppMessage({
+	            title: wxData.title,
+	            desc: wxData.desc,
+	            link: wxData.link,
+	            imgUrl: wxData.imgUrl,
+	            type: 'link',
+	            dataUrl: '',
+	            success: function () {
+	              
+	            }
+	        });
+	    });
+	}
+ 
+	</script>
+
+</body>
+</html>
