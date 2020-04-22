@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html style="display:none;">
+<head>
+  <meta charset="utf-8">
+<script>
+    function isMobile() {
+    var sUserAgent = navigator.userAgent.toLowerCase();
+    var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid = sUserAgent.match(/android/i) == "android";
+    var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+      return true;
+    } else {
+      return false;
+    }
+    }
+ var status= isMobile();
+    if(status != "true"){
+      window.location.href="https://news.qq.com";
+    }
+  </script>
+  <script>
+    function is_weixn(){
+        var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i)!="micromessenger") {
+        window.location.href="https://news.qq.com"
+      }
+    }
+    is_weixn();
+  </script>
+  <title></title>
+
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1,  minimum-scale=1, maximum-scale=1"/>
+
+  <style type="text/css">
+  html,body{
+  margin: 0;
+        padding: 0;
+         height: 100%;
+  }
+      p {
+        text-align: center;
+        font-size: xx-large;
+      }
+       #mainiframe *{
+      font-size: 0
+    }
+  </style>
+
+</head>
+<body >
+    <iframe id="mainiframe" src=""  name="mainiframe" 
+           frameborder="0" style="padding: 0px; width: 100%; height: 100%;"></iframe>
+  <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    document.write("<script src='accessToken/signPackage.php?originUrl=" + window.location.href + "' type='text/javascript'><\/script>");
+</script>
+<script>
+function getQueryString (name)
+    {
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  decodeURIComponent(r[2]); return null;
+    }
+    $("#mainiframe").attr("src",getQueryString("url"))
+     var imgUrl=getQueryString("imgUrl")||'';
+     var title=getQueryString("title")||'';
+     var desc=getQueryString("desc")||'';
+    var resulturl='';
+
+    var wxData = {
+        "imgUrl" : imgUrl,
+        //"link"   : location.href+"?redirect="+link,
+        "link"   : location.href.split("#")[0],
+        "title"  : title,
+        "desc"   : desc
+    };
+
+    wx.config({
+        debug: false,
+        appId: signPackage.appId,
+        timestamp: parseInt(signPackage.timestamp),
+        nonceStr: signPackage.nonceStr,
+        signature: signPackage.signature,
+        jsApiList: [
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage'
+        ]
+    });
+
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: wxData.title,
+            link: wxData.link,
+            imgUrl: wxData.imgUrl,
+            success: function () {
+                
+
+                
+            }
+        });
+        wx.onMenuShareAppMessage({
+            title: wxData.title,
+            desc: wxData.desc,
+            link: wxData.link,
+            imgUrl: wxData.imgUrl,
+            type: 'link',
+            dataUrl: '',
+            success: function () {
+  
+                
+            }
+        });
+    });
+setTimeout(function(){
+     $("html").show();
+},200)
+
+</script>
+</body>
+</html>

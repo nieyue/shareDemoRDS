@@ -6,7 +6,8 @@
 	$url = substr($queryString,10);	// 截取原网页的完整url
 
 	require_once "jssdk.php";
-	$jssdk = new JSSDK("wx139bcc32b24c2d35", "a78e2b3fa641ee7b9c44dc083a0d94b7", $url);// 改为自己公众号的AppID、AppSecret
+	//$jssdk = new JSSDK("wx139bcc32b24c2d35", "a78e2b3fa641ee7b9c44dc083a0d94b7", $url);// 改为自己公众号的AppID、AppSecret
+	$jssdk = new JSSDK("wx4d2cb896c1256cbe", "fc1eeae1ae1c69caa68d87d5e55f7659", $url);
 	$signPackage = $jssdk->GetSignPackage();
 	echo "var signPackage=";
  	die(json_encode($signPackage));// 返回微信分享所需参数
